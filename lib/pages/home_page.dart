@@ -9,6 +9,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final secondaryAnimation = ModalRoute.of(context).secondaryAnimation;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,32 +57,41 @@ class _HomePageState extends State<HomePage> {
                     maxHeight: 100,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Material(
-                        shadowColor:
-                            Theme.of(context).primaryColor.withOpacity(0.3),
-                        elevation: 10,
-                        clipBehavior: Clip.hardEdge,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 15,
-                              horizontal: 12,
+                      child: AnimatedBuilder(
+                          animation: secondaryAnimation,
+                          child: Material(
+                            shadowColor:
+                                Theme.of(context).primaryColor.withOpacity(0.3),
+                            elevation: 10,
+                            clipBehavior: Clip.hardEdge,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
                             ),
-                            prefixIcon: Icon(Icons.search),
-                            hintText: 'Search',
-                            border: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            focusedErrorBorder: InputBorder.none,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 15,
+                                  horizontal: 12,
+                                ),
+                                prefixIcon: Icon(Icons.search),
+                                hintText: 'Search',
+                                border: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                              ),
+                              onSubmitted: (val) {},
+                            ),
                           ),
-                          onSubmitted: (val) {},
-                        ),
-                      ),
+                          builder: (context, child) {
+                            return Transform.translate(
+                              offset: Offset(secondaryAnimation.value, 0),
+                              // opacity: animation.value,
+                              child: child,
+                            );
+                          }),
                     ),
                   ),
                 ),
@@ -92,6 +102,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(12),
             child: Material(
+              clipBehavior: Clip.hardEdge,
               elevation: 10,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -105,7 +116,10 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 12,
+                  ),
                   child: Text('Press'),
                 ),
               ),
